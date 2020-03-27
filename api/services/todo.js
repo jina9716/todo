@@ -21,7 +21,7 @@ exports.getToDoList = async function(params){
         throw "조회 종료일은 조회 시작일보다 빠를 수 없습니다.";
     }
 
-    let query = Todo.find().where('title').regex(new RegExp(title));
+    let query = Todo.where('title').regex(new RegExp(title));
 
     if (['TODO', 'IN_PROGRESS', 'DONE'].indexOf(status) !== -1) {
         query.where('status').equals(status);
@@ -48,10 +48,10 @@ exports.getToDoList = async function(params){
         query.where('createdAt').lt(new Date(endCreatedAt).setDate(new Date(endCreatedAt).getDate()+1));
     }
 
-    let totalCount = await query.countDocuments();
-    let list = await query.find().select('title status context dueDate createdAt doneAt -_id').limit(10).exec();
+    const totalCount = await query.countDocuments();
+    const list = await query.find().select('title status context dueDate createdAt doneAt -_id').limit(10).exec();
 
-    let result = {items: list, totalCount: totalCount};
+    const result = {items: list, totalCount: totalCount};
     return result;
 };
 
