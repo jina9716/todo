@@ -48,8 +48,8 @@ exports.getToDoList = async function(params){
         query.where('createdAt').lt(new Date(endCreatedAt).setDate(new Date(endCreatedAt).getDate()+1));
     }
 
-    let list = await query.select('title status context dueDate createdAt doneAt -_id').limit(10);
     let totalCount = await query.countDocuments();
+    let list = await query.find().select('title status context dueDate createdAt doneAt -_id').limit(10).exec();
 
     let result = {items: list, totalCount: totalCount};
     return result;
