@@ -16,6 +16,7 @@ exports.getToDoList = async function(params){
     const endDoneAt = params.endDoneAt ;
     const startCreatedAt = params.startCreatedAt;
     const endCreatedAt = params.endCreatedAt;
+    const page = params.skip;
 
     if (new Date(startDueDate) > new Date(endDueDate) || new Date(startDoneAt) > new Date(endDoneAt) || new Date(startCreatedAt) > new Date(endCreatedAt)) {
         throw "조회 종료일은 조회 시작일보다 빠를 수 없습니다.";
@@ -49,7 +50,7 @@ exports.getToDoList = async function(params){
     }
 
     const totalCount = await query.countDocuments();
-    const list = await query.find().select('title status context dueDate createdAt doneAt -_id').limit(10).exec();
+    const list = await query.find().select('title status context dueDate createdAt doneAt -_id').skip(Number(page)).limit(10).exec();
 
     const result = {items: list, totalCount: totalCount};
     return result;
