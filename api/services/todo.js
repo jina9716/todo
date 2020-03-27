@@ -29,22 +29,22 @@ exports.getToDoList = async function(params){
     if (['NONE', 'WORK', 'HOME'].indexOf(context) !== -1) {
         query.where('context').equals(context);
     }
-    if (startDueDate != "") {
+    if (startDueDate != "" && startDueDate != undefined) {
         query.where('dueDate').gte(new Date(startDueDate));
     }
-    if (endDueDate != "") {
+    if (endDueDate != "" && endDueDate != undefined) {
         query.where('dueDate').lte(new Date(endDueDate));
     }
-    if (startDoneAt != "") {
+    if (startDoneAt != "" && startDoneAt != undefined) {
         query.where('doneAt').gte(new Date(startDoneAt));
     }
-    if (endDoneAt != "") {
+    if (endDoneAt != "" && endDoneAt != undefined) {
         query.where('doneAt').lte(new Date(endDoneAt).setDate(new Date(endDoneAt).getDate()+1));
     }
-    if (startCreatedAt != "") {
+    if (startCreatedAt != "" && startCreatedAt != undefined) {
         query.where('createdAt').gte(new Date(startCreatedAt));
     }
-    if (endCreatedAt != "") {
+    if (endCreatedAt != "" && endCreatedAt != undefined) {
         query.where('createdAt').lt(new Date(endCreatedAt).setDate(new Date(endCreatedAt).getDate()+1));
     }
 
