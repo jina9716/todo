@@ -1,70 +1,72 @@
-'use strict';
-
 const co = require('co');
-const service = require('../services/todo');
+const createService = require('../services/todo/createService');
+const getListService = require('../services/todo/getListService');
+const getService = require('../services/todo/getService');
+const updateService = require('../services/todo/updateService');
+const deleteService = require('../services/todo/deleteService');
 
-exports.createToDo = function(req, res){
-    service.createToDo(req.body)
+exports.createToDo = (req, res) => {
+    createService.createToDo(req.body)
     .then(()=>{
         return res.status(204).send();
     })
     .catch(error=>{
-        return res.status(400).send(error);
+        return res.status(400).send(error.stack);
     });
 };
 
-exports.createToDo_co = function(req, res){
+exports.createToDo_co = (req, res) => {
     co(function* (){
         try {
-            yield service.createToDo(req.body);
+            yield createService.createToDo(req.body);
             return res.status(204).send();
         } catch (error) {
-            return res.status(400).send(error);
+            return res.status(400).send(error.stack);
         }
     });
 };
 
-exports.createToDo_async = async function(req, res){
+exports.createToDo_async = async (req, res) => {
     try {
-        await service.createToDo(req.body);
+        await createService.createToDo(req.body);
         return res.status(204).send();
     } catch (error) {
-        return res.status(400).send(error);   
+        return res.status(400).send(error.stack);
     }
 };
 
-exports.getToDoList = async function(req, res){
+exports.getToDoList = async (req, res)=>{
     try {
-        let result = await service.getToDoList(req.query);
+        let result = await getListService.getToDoList(req.query);
         return res.send(result);
     } catch (error) {
-        return res.status(400).send(error);
+        return res.status(400).send(error.stack);
     }
 };
 
-exports.getToDo = async function(req, res){
+exports.getToDo = async (req, res) => {
     try {
-        let result = await service.getToDo(req.params.todoId);
+        let result = await getService.getToDo(req.params.todoId);
         return res.send(result);
     } catch (error) {
-        return res.status(400).send(error);
+        return res.status(400).send(error.stack);
     }
 };
 
-exports.updateToDo = async function(req, res){
+exports.updateToDo = async (req, res) => {
     try {
-        await service.updateToDo(req.params.todoId, req.body);
+        await updateService.updateToDo(req.params.todoId, req.body);
         return res.status(204).send();
     } catch (error) {
-        return res.status(400).send(error);
+        return res.status(400).send(error.stack);
     }
 };
 
-exports.deleteToDo = async function(req, res){
+exports.deleteToDo = async (req, res) => {
     try {
-        await service.deleteToDo(req.params.todoId);
+        await deleteService.deleteToDo(req.params.todoId);
         return res.status(204).send();
     } catch (error) {
-        return res.status(400).send(error);
+        return res.status(400).send(error.stack);
     }
 };
