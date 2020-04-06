@@ -49,6 +49,15 @@ describe('TODO 목록 조회 테스트', ()=>{
         await getListService.getToDoList(data).should.rejectedWith("page 값이 올바르지 않습니다.");
         Todo.find.called.should.not.ok();
     });
+    it('날짜 형식이 맞지 않으면 에러를 반환한다', async () => {
+        let data = {
+            startCreatedAt: '2020-03-25s',
+            endCreatedAt: '2020-03-30',
+        };
+
+        await getListService.getToDoList(data).should.rejectedWith('날짜 형식이 맞지 않습니다.');
+        Todo.find.called.should.not.ok();
+    });
     it('정상 작동 시 find 결과 확인', async () => {
         let data = {
             title: "딸기",

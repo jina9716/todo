@@ -43,8 +43,15 @@ exports.getToDoList = async (body) => {
  * @returns {[*|moment.Moment|boolean, *]}
  */
 dateValidationCheck = (startDate, endDate) => {
-    startDate = moment(new Date(startDate)).isValid() && moment(new Date(startDate), 'YYYY-MM-DD') || false;
-    endDate = moment(new Date(endDate)).isValid() && moment(new Date(endDate), 'YYYY-MM-DD') || false;
+    if (startDate !== undefined && startDate !== '' && !moment(new Date(startDate)).isValid()) {
+        throw new Error('날짜 형식이 맞지 않습니다.');
+    }
+    if (endDate !== undefined && endDate !== '' && !moment(new Date(endDate)).isValid()) {
+        throw new Error('날짜 형식이 맞지 않습니다.');
+    }
+
+    startDate = moment(new Date(startDate)).isValid() && moment(new Date(startDate), 'YYYY-MM-DD');
+    endDate = moment(new Date(endDate)).isValid() && moment(new Date(endDate), 'YYYY-MM-DD');
 
     if (startDate && endDate && endDate.diff(startDate) < 0) {
         throw new Error("조회 종료일은 조회 시작일보다 빠를 수 없습니다.");
