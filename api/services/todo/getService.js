@@ -1,8 +1,7 @@
 const Todo = require('../../models/todo');
+const validator = require('../../utils/validator');
 
 exports.getToDo = async (todoId) => {
-    if (!Todo.isValidId(todoId)) {
-        throw new Error('invalid id');
-    }
-    return Todo.findOne({_id: todoId});
+    validator.validateId(todoId); // validation check
+    return Todo.findOne({ _id: todoId });
 };

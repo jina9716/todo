@@ -1,13 +1,13 @@
 const STATUS = {
     TODO: 'TODO',
     IN_PROGRESS: 'IN_PROGRESS',
-    DONE: 'DONE'
-}
+    DONE: 'DONE',
+};
 
 const CONTEXT = {
     NONE: 'NONE',
     WORK: 'WORK',
-    HOME: 'HOME'
-}
+    HOME: 'HOME',
+};
 
-module.exports = {STATUS,CONTEXT};
+module.exports = { STATUS, CONTEXT };

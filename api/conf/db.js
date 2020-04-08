@@ -1,13 +1,21 @@
 const mongoose = require('mongoose');
 
-mongoose.conn = mongoose.createConnection('mongodb://localhost:27017/local', {useNewUrlParser: true, useUnifiedTopology: true});
+let connection;
+exports.getConnection = () => {
+    if (!connection) {
+        connection = mongoose.createConnection('mongodb://localhost:27017/local', {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        });
+    }
+    return connection;
+};
 
-mongoose.conn.on('error', error => {
-    console.error('db connection error: ', error.message);
-    process.exit(1);
-});
-mongoose.conn.on('open', () => {
-    console.log('db connected!!');
-});
-
-module.exports = mongoose;
+exports.getStatus = async () => {
+    try {
+        await this.getConnection();
+    } catch (e) {
+        console.error(e);
+        process.exit(1);
+    }
+};
