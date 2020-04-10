@@ -67,14 +67,22 @@ exports.validateList = (data) => {
     }
 };
 
-exports.validateId = (objectId) => {
+const validateId = (objectId) => {
     if (!/^[a-fA-F0-9]{24}$/.test(objectId)) {
         throw new Error('id 형식이 맞지 않습니다.');
     }
 };
 
+exports.validateGet = (todoId) => {
+    validateId(todoId);
+};
+
 exports.validateUpdate = (todoId, data) => {
-    this.validateId(todoId);
+    validateId(todoId);
     validateStatus(data.status);
     validateContext(data.context);
+};
+
+exports.validateDelete = (todoId) => {
+    validateId(todoId);
 };
