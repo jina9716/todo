@@ -35,7 +35,7 @@ describe('TODO 상세 조회 테스트', () => {
         await getService.getToDo(id).should.rejectedWith('id 형식이 맞지 않습니다.');
         Todo.findOne.called.should.not.ok();
     });
-    it('id가 올바르면 정상 통과', async () => {
+    it('유효성 검사 통과 시 할 일 상세를 조회한다', async () => {
         const id = '5e7b00d3914cb7438a60abc1';
         await getService.getToDo(id).should.fulfilledWith({
             status: 'IN_PROGRESS',

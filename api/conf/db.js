@@ -11,11 +11,22 @@ exports.getConnection = () => {
     return connection;
 };
 
-exports.getStatus = async () => {
-    try {
-        await this.getConnection();
-    } catch (e) {
-        console.error(e);
-        process.exit(1);
-    }
+exports.getStatusCheck = () => {
+    return new Promise((resolve, reject) => {
+        connection.on('error', (error) => {
+            reject(error);
+        });
+        connection.on('open', () => {
+            resolve();
+        });
+    });
 };
+
+// async/await 도 됨
+// exports.getStatusCheck = async () => {
+//     try {
+//         await this.getConnection();
+//     } catch (e) {
+//         throw e;
+//     }
+// };

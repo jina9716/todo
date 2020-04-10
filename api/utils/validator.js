@@ -14,18 +14,19 @@ const validateContext = (context) => {
     }
 };
 
-exports.validateCreate = (title, status, context) => {
-    if (_.isNil(title)) {
-        throw new Error('title 은 필수값 입니다.');
-    }
-    validateStatus(status);
-    validateContext(context);
-};
-
 const validateDate = (date) => {
     if (!_.isNil(date) && date !== '' && !moment(date, 'YYYY-MM-DD', true).isValid()) {
         throw new Error('날짜 형식이 맞지 않습니다.');
     }
+};
+
+exports.validateCreate = (data) => {
+    if (_.isNil(data.title)) throw new Error('title 은 필수값 입니다.');
+    if (_.isNil(data.status)) throw new Error('status 는 필수값 입니다.');
+    if (_.isNil(data.context)) throw new Error('context 는 필수값 입니다.');
+    validateStatus(data.status);
+    validateContext(data.context);
+    validateDate(data.dueDate);
 };
 
 const compareDate = (startDate, endDate) => {
@@ -35,7 +36,7 @@ const compareDate = (startDate, endDate) => {
 };
 
 exports.validateList = (data) => {
-    let {
+    const {
         status,
         context,
         startDueDate,
@@ -72,8 +73,8 @@ exports.validateId = (objectId) => {
     }
 };
 
-exports.validateUpdate = (objectId, status, context) => {
-    this.validateId(objectId);
-    validateStatus(status);
-    validateContext(context);
+exports.validateUpdate = (todoId, data) => {
+    this.validateId(todoId);
+    validateStatus(data.status);
+    validateContext(data.context);
 };

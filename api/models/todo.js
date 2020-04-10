@@ -6,8 +6,8 @@ const { STATUS, CONTEXT } = require('../constant/todo');
 const todoSchema = mongoose.Schema(
     {
         title: { type: String, required: true },
-        status: { type: String, required: true, default: STATUS.TODO, enum: _.keys(STATUS) },
-        context: { type: String, required: true, default: CONTEXT.NONE, enum: _.keys(CONTEXT) },
+        status: { type: String, required: true, default: STATUS.TODO, enum: _.values(STATUS) },
+        context: { type: String, required: true, default: CONTEXT.NONE, enum: _.values(CONTEXT) },
         dueDate: { type: Date, required: false },
         doneAt: { type: Date, required: false },
     },

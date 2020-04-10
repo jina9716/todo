@@ -29,7 +29,7 @@ describe('TODO 삭제 테스트', () => {
         await deleteService.deleteToDo(id).should.rejectedWith('id 형식이 맞지 않습니다.');
         Todo.deleteOne.called.should.not.ok();
     });
-    it('정상 작동 시 deleteOne 호출 하는지 체크', async () => {
+    it('유효성 검사 통과 시 할 일을 삭제한다', async () => {
         const id = '5e7b00d3914cb7438a60abc1';
         await deleteService.deleteToDo(id);
         Todo.deleteOne.called.should.ok();

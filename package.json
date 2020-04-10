@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "mocha test/todo.js"
+    "test": "mocha api/services/todo/spec/*.spec.js"
   },
   "author": "",
   "license": "ISC",

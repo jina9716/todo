@@ -4,7 +4,7 @@ const validator = require('../../utils/validator');
 
 exports.updateToDo = async (todoId, data) => {
     // validation check
-    validator.validateUpdate(todoId, data.status, data.context);
+    validator.validateUpdate(todoId, data);
 
     // doc
     let doc = { $set: { ...data } };

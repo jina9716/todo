@@ -13,10 +13,16 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 db.getConnection();
-db.getStatus().then(() => {
-    console.log('>> db connected!');
-    app.listen(port, () => {
-        console.log(`Server running at http://localhost:${port}`);
+db.getStatusCheck()
+    .then(() => {
+        console.log('>> db connected!');
+        app.listen(port, () => {
+            console.log(`Server running at http://localhost:${port}`);
+        });
+    })
+    .catch((error) => {
+        console.log(`>> db connect error: ${error.message}`);
+        process.exit(1);
     });
-});
+
 router(app);

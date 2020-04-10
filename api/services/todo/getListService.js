@@ -16,15 +16,11 @@ const getDateFilter = (startDate, endDate, field) => {
 
 const getFilter = (data) => {
     let filter = {};
-    if (data.title) {
-        filter.title = new RegExp(_.escapeRegExp(data.title));
-    }
-    if (data.status) {
-        filter.status = data.status;
-    }
-    if (data.context) {
-        filter.context = data.context;
-    }
+
+    if (data.title) filter.title = new RegExp(_.escapeRegExp(data.title));
+    if (data.status) filter.status = data.status;
+    if (data.context) filter.context = data.context;
+
     _.assign(
         filter,
         getDateFilter(data.startDueDate, data.endDueDate, 'dueDate'),
@@ -42,11 +38,8 @@ exports.getToDoList = async (data) => {
     // 쿼리 필터 가져오기
     const filter = getFilter(data);
 
-    const totalCount = Todo.countDocuments(filter);
-    const list = Todo.find(filter, null, { skip: (Number(data.page) - 1) * 10, limit: 10 });
+    const countDocuments = Todo.countDocuments(filter);
+    const find = Todo.find(filter, null, { skip: (Number(data.page) - 1) * 10, limit: 10 });
 
-    return Promise.all([list, totalCount]).then((values) => {
-        const [list, totalCount] = values;
-        return { items: list, totalCount: totalCount };
-    });
+    return Promise.all([find, countDocuments]).then(([items, totalCount]) => ({ items, totalCount }));
 };
