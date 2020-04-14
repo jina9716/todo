@@ -1,9 +1,9 @@
 const sinon = require('sinon');
-const should = require('should');
 const mongoose = require('mongoose');
+require('should');
 require('sinon-mongoose');
 
-describe('TODO 삭제 테스트', ()=>{
+describe('TODO 삭제 테스트', () => {
     let Todo;
     let deleteService;
     let sandbox;
@@ -22,15 +22,15 @@ describe('TODO 삭제 테스트', ()=>{
         sandbox.restore();
     });
     it('id가 올바르지 않으면 에러를 반환한다', async () => {
-        const id = "5e7b00d3914cb7438a60abc1s";
+        const id = '5e7b00d3914cb7438a60abc1s';
         // if (!Todo.isValidId(id)){
         //     console.log('error');
         // }
-        await deleteService.deleteToDo(id).should.rejectedWith('invalid id');
+        await deleteService.deleteToDo(id).should.rejectedWith('id 형식이 맞지 않습니다.');
         Todo.deleteOne.called.should.not.ok();
     });
-    it('정상 작동 시 deleteOne 호출 하는지 체크', async () => {
-        const id = "5e7b00d3914cb7438a60abc1";
+    it('유효성 검사 통과 시 할 일을 삭제한다', async () => {
+        const id = '5e7b00d3914cb7438a60abc1';
         await deleteService.deleteToDo(id);
         Todo.deleteOne.called.should.ok();
     });

@@ -1,18 +1,17 @@
-const moment = require('moment');
-const mongoose = require('../conf/db');
-const {STATUS, CONTEXT} = require('../constant/const');
+const mongoose = require('mongoose');
+const _ = require('lodash');
+const db = require('../conf/db');
+const { STATUS, CONTEXT } = require('../constant/todo');
 
-const todoSchema = mongoose.Schema({
-    title: {type: String, required: true},
-    status: {type: String, required: true, default: 'TODO', enum: [STATUS.TODO, STATUS.IN_PROGRESS, STATUS.DONE]},
-    context: {type: String, required: true, default: 'NONE', enum: [CONTEXT.NONE, CONTEXT.WORK, CONTEXT.HOME]},
-    dueDate: {type: Date, required: false},
-    createdAt: {type: Date, required: true, default: moment()},
-    doneAt: {type: Date, required: false}
-}, {collection: 'todo'});
+const todoSchema = mongoose.Schema(
+    {
+        title: { type: String, required: true },
+        status: { type: String, required: true, default: STATUS.TODO, enum: _.values(STATUS) },
+        context: { type: String, required: true, default: CONTEXT.NONE, enum: _.values(CONTEXT) },
+        dueDate: { type: Date, required: false },
+        doneAt: { type: Date, required: false },
+    },
+    { timestamps: { createdAt: true } }
+);
 
-todoSchema.statics.isValidId = (objectId) => {
-    return mongoose.Types.ObjectId.isValid(objectId);
-};
-
-module.exports = mongoose.conn.model('Todo', todoSchema);
+module.exports = db.getConnection().model('Todo', todoSchema);

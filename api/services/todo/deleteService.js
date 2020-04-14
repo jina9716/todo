@@ -1,8 +1,7 @@
 const Todo = require('../../models/todo');
+const validator = require('../../utils/validator');
 
 exports.deleteToDo = async (todoId) => {
-    if (!Todo.isValidId(todoId)){
-        throw new Error('invalid id');
-    }
-    return Todo.deleteOne({_id: todoId});
+    validator.validateDelete(todoId); // validation check
+    return Todo.deleteOne({ _id: todoId });
 };

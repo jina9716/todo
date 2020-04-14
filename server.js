@@ -9,9 +9,20 @@ const port = 3000;
 
 app.use(logger('combined'));
 
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-router(app);
+db.getConnection();
+db.getStatusCheck()
+    .then(() => {
+        console.log('>> db connected!');
+        app.listen(port, () => {
+            console.log(`Server running at http://localhost:${port}`);
+        });
+    })
+    .catch((error) => {
+        console.log(`>> db connect error: ${error.message}`);
+        process.exit(1);
+    });
 
-app.listen(port);
+router(app);
